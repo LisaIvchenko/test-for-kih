@@ -43,8 +43,8 @@
           <p>{{ person.lastName }}</p>
           <p>{{ person.age }}</p>
           <p>{{ person.email }}</p>
-          <button class="edit-btn" @click="edit(id)"></button>
-          <button class="remove-btn" @click="remove(id)"></button>
+          <button class="edit-btn" @click="edit(person.id)"></button>
+          <button class="remove-btn" @click="remove(person.id)"></button>
         </div>
       </div>
     </div>
@@ -64,6 +64,7 @@ export default {
       email: null,
       isEditing: false,
       editingId: null,
+      editedPerson: null,
     };
   },
   props: ['list'],
@@ -81,26 +82,39 @@ export default {
         };
         this.list.push(newPerson);
         this.list = this.list.sort((a, b) => b.firstName.localeCompare(a.firstName));
+        this.clearForm();
       }
     },
     remove(id) {
-      this.$delete(this.list, id);
+      this.list = this.list.filter((el) => el.id !== id);
     },
     edit(id) {
       this.isEditing = true;
       this.editingId = id;
-      this.firstName = this.list[id].firstName;
-      this.lastName = this.list[id].lastName;
-      this.age = this.list[id].age;
-      this.email = this.list[id].email;
+      this.editedPerson = this.list.filter((el) => el.id === id);
+      this.firstName = this.editedPerson[0].firstName;
+      this.lastName = this.editedPerson[0].lastName;
+      this.age = this.editedPerson[0].age;
+      this.email = this.editedPerson[0].email;
     },
     submitEdit(event) {
       event.preventDefault();
-      this.list[this.editingId].firstName = this.firstName;
-      this.list[this.editingId].lastName = this.lastName;
-      this.list[this.editingId].age = this.age;
-      this.list[this.editingId].email = this.email;
+      const editedValues = {
+        id: this.editedPerson.id,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        age: this.age,
+        email: this.email,
+      };
+      this.list = this.list.map((el) => (el.id === this.editedPerson[0].id ? editedValues : el));
       this.isEditing = false;
+      this.clearForm();
+    },
+    clearForm() {
+      this.firstName = '';
+      this.lastName = '';
+      this.age = '';
+      this.email = '';
     },
   },
 };
