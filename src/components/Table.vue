@@ -4,10 +4,12 @@
         <input type="text"
                placeholder="first name"
                required
+               maxlength="30"
                v-model="firstName">
         <input type="text"
                placeholder="last name"
                required
+               maxlength="30"
                v-model="lastName">
         <input type="age"
                placeholder="age"
@@ -15,9 +17,14 @@
                v-model="age">
         <input type="email"
                placeholder="e-mail"
+               maxlength="30"
                required
                v-model="email">
-        <button class="submit-btn" type="submit">add note</button>
+        <button class="submit-btn" type="submit" v-if="!isEditing">add note</button>
+        <button class="submit-btn"
+                type="submit"
+                v-if="isEditing"
+                @click="submitEdit($event)">edit note</button>
       </form>
       <div class="table-container-inner">
         <div class="table-header">
@@ -36,7 +43,7 @@
           <p>{{ person.lastName }}</p>
           <p>{{ person.age }}</p>
           <p>{{ person.email }}</p>
-          <button class="edit-btn"></button>
+          <button class="edit-btn" @click="edit(id)"></button>
           <button class="remove-btn" @click="remove(id)"></button>
         </div>
       </div>
@@ -55,25 +62,45 @@ export default {
       lastName: null,
       age: null,
       email: null,
+      isEditing: false,
+      editingId: null,
     };
   },
   props: ['list'],
   methods: {
     addPerson(event) {
       event.preventDefault();
-      const newPerson = {
-        // символическая генерация нового id, нашли существующий макс id и прибавили 1
-        id: Math.max(...this.list.map((el) => el.id)) + 1,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        age: this.age,
-        email: this.email,
-      };
-      this.list.push(newPerson);
-      this.list = this.list.sort((a, b) => b.firstName.localeCompare(a.firstName));
+      if (!this.isEditing) {
+        const newPerson = {
+          // символическая генерация нового id, нашли существующий макс id и прибавили 1
+          id: this.list.length !== 0 ? Math.max(...this.list.map((el) => el.id)) + 1 : 1,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          age: this.age,
+          email: this.email,
+        };
+        this.list.push(newPerson);
+        this.list = this.list.sort((a, b) => b.firstName.localeCompare(a.firstName));
+      }
     },
     remove(id) {
       this.$delete(this.list, id);
+    },
+    edit(id) {
+      this.isEditing = true;
+      this.editingId = id;
+      this.firstName = this.list[id].firstName;
+      this.lastName = this.list[id].lastName;
+      this.age = this.list[id].age;
+      this.email = this.list[id].email;
+    },
+    submitEdit(event) {
+      event.preventDefault();
+      this.list[this.editingId].firstName = this.firstName;
+      this.list[this.editingId].lastName = this.lastName;
+      this.list[this.editingId].age = this.age;
+      this.list[this.editingId].email = this.email;
+      this.isEditing = false;
     },
   },
 };
