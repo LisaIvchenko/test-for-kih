@@ -1,21 +1,25 @@
 <template>
   <div id="app">
+    <Pie :chart-data="agesList" />
     <Table v-bind:list="list"/>
   </div>
 </template>
 
 <script>
 import Table from './components/Table.vue';
+import Pie from './components/Pie.vue';
 
 export default {
   name: 'App',
   data() {
     return {
       list: [],
+      agesList: [0, 4, 5, 3],
     };
   },
   components: {
     Table,
+    Pie,
   },
   mounted() {
     fetch('http://vuetask.kih.ru/api.php')
