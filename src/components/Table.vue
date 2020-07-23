@@ -100,7 +100,7 @@ export default {
     submitEdit(event) {
       event.preventDefault();
       const editedValues = {
-        id: this.editedPerson.id,
+        id: this.editedPerson[0].id,
         firstName: this.firstName,
         lastName: this.lastName,
         age: this.age,
