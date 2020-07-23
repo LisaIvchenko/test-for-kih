@@ -22,7 +22,6 @@ export default {
       .then((response) => response.json())
       .then((response) => {
         this.list = response.sort((a, b) => b.firstName.localeCompare(a.firstName));
-        console.table(this.list);
       });
   },
 };
@@ -36,5 +35,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+button {
+  cursor: pointer;
 }
 </style>
