@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Pie :chart-data="agesList" />
+    <Pie :chart-data="ages" v-bind:ages="ages" v-bind:loaded="loaded" v-if="loaded"/>
     <Table v-bind:list="list"/>
   </div>
 </template>
@@ -13,8 +13,9 @@ export default {
   name: 'App',
   data() {
     return {
+      loaded: false,
       list: [],
-      agesList: [0, 4, 5, 3],
+      ages: [0, 0, 0, 0, 0],
     };
   },
   components: {
@@ -26,7 +27,31 @@ export default {
       .then((response) => response.json())
       .then((response) => {
         this.list = response.sort((a, b) => b.firstName.localeCompare(a.firstName));
+        this.countAges();
       });
+  },
+  methods: {
+    countAges() {
+      this.list.forEach((el) => {
+        if (el.age <= 20) {
+          this.ages[0] += 1;
+        }
+        if (el.age > 20 && el.age <= 30) {
+          this.ages[1] += 1;
+        }
+        if (el.age > 30 && el.age <= 40) {
+          this.ages[2] += 1;
+        }
+        if (el.age > 40 && el.age <= 50) {
+          this.ages[3] += 1;
+        }
+        if (el.age > 50) {
+          this.ages[4] += 1;
+        }
+      });
+      console.log(this.ages);
+      this.loaded = true;
+    },
   },
 };
 </script>

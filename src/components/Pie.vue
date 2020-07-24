@@ -1,6 +1,6 @@
 <template>
   <div class="chart-container">
-    <pie-chart :data="chartData" :options="chartOptions"></pie-chart>
+    <pie-chart :data="chartData" :options="chartOptions" v-if="loaded"></pie-chart>
   </div>
 </template>
 
@@ -12,6 +12,7 @@ export default {
   components: {
     PieChart,
   },
+  props: ['ages', 'loaded'],
   data() {
     return {
       chartOptions: {
@@ -24,15 +25,18 @@ export default {
         datasets: [
           {
             label: 'Data One',
-            backgroundColor: ['#41B883', '#E46651', '#00D8FF'],
-            data: this.agesList,
+            backgroundColor: ['#DEFEC7', '#AFFEC7', '#B1DE75', '#718a3d', '#5EDA  7E'],
+            data: this.ages,
           },
         ],
       },
     };
   },
   mounted() {
-    this.renderChart(this.chartdata, this.options);
+    if (this.loaded) {
+      console.log(this.ages, 'snt');
+      this.renderChart(this.chartData, this.options);
+    }
   },
 };
 </script>
