@@ -49,7 +49,6 @@ export default {
           this.ages[4] += 1;
         }
       });
-      console.log(this.ages);
       this.loaded = true;
     },
   },
@@ -64,6 +63,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  width: 1440px;
 }
 
 button {

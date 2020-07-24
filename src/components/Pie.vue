@@ -1,6 +1,6 @@
 <template>
   <div class="chart-container">
-    <pie-chart :data="chartData"></pie-chart>
+    <pie-chart :chart-data="chartData"></pie-chart>
     <h1>Тестовое задание для Кубань-Информ-Холдинг-Юг</h1>
   </div>
 </template>

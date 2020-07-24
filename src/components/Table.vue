@@ -123,6 +123,7 @@ export default {
 <style scoped lang="scss">
   .table-container {
     display: flex;
+    margin-bottom: 64px;
   }
 
   .table-container-inner {
