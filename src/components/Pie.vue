@@ -1,6 +1,7 @@
 <template>
   <div class="chart-container">
-    <pie-chart :data="chartData" :options="chartOptions" v-if="loaded"></pie-chart>
+    <pie-chart :data="chartData"></pie-chart>
+    <h1>Тестовое задание для Кубань-Информ-Холдинг-Юг</h1>
   </div>
 </template>
 
@@ -15,17 +16,31 @@ export default {
   props: ['ages', 'loaded'],
   data() {
     return {
-      chartOptions: {
-        hoverBorderWidth: 20,
-      },
       chartData: {
-        hoverBackgroundColor: 'red',
-        hoverBorderWidth: 10,
         labels: ['моложе 20', '21-30', '31-40', '41-50', 'старше 50'],
         datasets: [
           {
-            label: 'Data One',
-            backgroundColor: ['#DEFEC7', '#AFFEC7', '#B1DE75', '#718a3d', '#5EDA  7E'],
+            backgroundColor: [
+              'rgba(222,254,199, .5)',
+              'rgba(175,254,199, .5)',
+              'rgba(177,222,117, .5)',
+              'rgba(113,138,61, .5)',
+              'rgba(94,218,126, .5)',
+            ],
+            borderColor: [
+              'rgb(222,254,199)',
+              'rgb(175,254,199)',
+              'rgb(177,222,117)',
+              'rgb(113,138,61)',
+              'rgb(94,218,126)',
+            ],
+            hoverBackgroundColor: [
+              'rgb(222,254,199)',
+              'rgb(175,254,199)',
+              'rgb(177,222,117)',
+              'rgb(113,138,61)',
+              'rgb(94,218,126)',
+            ],
             data: this.ages,
           },
         ],
@@ -34,8 +49,7 @@ export default {
   },
   mounted() {
     if (this.loaded) {
-      console.log(this.ages, 'snt');
-      this.renderChart(this.chartData, this.options);
+      this.renderChart(this.chartData);
     }
   },
 };
@@ -43,7 +57,15 @@ export default {
 
 <style scoped lang="scss">
   .chart-container {
-    width: 400px;
+    /*width: 400px;*/
     height: 400px;
+    margin-left: 64px;
+    display: flex;
+    align-items: center;
+  }
+
+  h1 {
+    text-align: right;
+    margin-left: 64px;
   }
 </style>
