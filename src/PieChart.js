@@ -3,6 +3,8 @@ import { Doughnut, mixins } from 'vue-chartjs';
 const { reactiveProp } = mixins;
 
 export default {
+  name: 'Pie',
+  extends: Doughnut,
   mixins: [Doughnut, reactiveProp],
   mounted() {
     this.renderChart(this.chartData, {
@@ -10,7 +12,7 @@ export default {
         duration: 700,
         easing: 'linear',
       },
-      legend: { position: 'bottom' },
+      legend: { position: 'right' },
       tooltips: {
         backgroundColor: '#0a332a',
         bodyFontColor: '#EFFEC7',
@@ -20,7 +22,6 @@ export default {
         borderWidth: 1,
         mode: 'label',
       },
-      responsive: true,
     });
   },
 };

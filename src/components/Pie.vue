@@ -46,11 +46,6 @@ export default {
       },
     };
   },
-  mounted() {
-    if (this.loaded) {
-      this.renderChart(this.chartData);
-    }
-  },
 };
 </script>
 
