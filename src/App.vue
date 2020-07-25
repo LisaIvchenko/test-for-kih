@@ -63,11 +63,14 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin: 32px;
-  width: calc(100% - 64px);
+  width: 100%;
 }
 
 button {
   cursor: pointer;
+}
+
+body {
+  margin: 0;
 }
 </style>

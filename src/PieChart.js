@@ -10,7 +10,7 @@ export default {
         duration: 700,
         easing: 'linear',
       },
-      legend: { position: 'right' },
+      legend: { position: 'bottom' },
       tooltips: {
         backgroundColor: '#0a332a',
         bodyFontColor: '#EFFEC7',
@@ -20,6 +20,7 @@ export default {
         borderWidth: 1,
         mode: 'label',
       },
+      responsive: true,
     });
   },
 };

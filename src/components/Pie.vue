@@ -58,7 +58,6 @@ export default {
   .chart-container {
     /*width: 400px;*/
     height: 400px;
-    margin-left: 64px;
     display: flex;
     align-items: center;
   }

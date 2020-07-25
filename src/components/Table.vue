@@ -26,6 +26,9 @@
                 type="submit"
                 v-if="isEditing"
                 @click="submitEdit($event)">edit note</button>
+        <button class="cancel-btn"
+                type="reset"
+                @click="cancel()">cancel</button>
       </form>
       <table>
           <tr>
@@ -119,6 +122,9 @@ export default {
     sortList() {
       this.list = this.list.sort((a, b) => b.firstName.localeCompare(a.firstName));
     },
+    cancel() {
+      this.isEditing = false;
+    },
   },
 };
 </script>
@@ -170,15 +176,24 @@ export default {
     border: 1px solid #ABA7E5;
   }
 
-  .submit-btn {
+  .submit-btn,
+  .cancel-btn {
     height: 48px;
     width: 270px;
     border-radius: 8px;
-    margin: 16px 0;
-    background: #ABA7E5;
     border: 0;
     color: #ffffff;
     font-size: 24px;
+  }
+
+  .submit-btn {
+    background: #ABA7E5;
+    margin: 16px 0 8px;
+  }
+
+  .cancel-btn {
+    background: #9696c2;
+    margin-bottom: 32px;
   }
 
   :focus {
