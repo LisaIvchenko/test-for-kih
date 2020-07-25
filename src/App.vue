@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <h1>Тестовое задание для Кубань-Информ-Холдинг-Юг</h1>
     <Pie :chart-data="ages" v-bind:ages="ages" v-bind:loaded="loaded" v-if="loaded"/>
     <Table v-bind:list="list"/>
   </div>
@@ -62,8 +63,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
-  width: 1440px;
+  margin: 32px;
+  width: calc(100% - 64px);
 }
 
 button {

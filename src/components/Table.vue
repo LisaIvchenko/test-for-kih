@@ -11,8 +11,9 @@
                required
                maxlength="30"
                v-model="lastName">
-        <input type="age"
+        <input type="number"
                placeholder="age"
+               min="0" max="110"
                required
                v-model="age">
         <input type="email"
@@ -26,27 +27,25 @@
                 v-if="isEditing"
                 @click="submitEdit($event)">edit note</button>
       </form>
-      <div class="table-container-inner">
-        <div class="table-header">
-          <h2>id</h2>
-          <h2>First Name</h2>
-          <h2>Last Name</h2>
-          <h2>Age</h2>
-          <h2>E-mail</h2>
-        </div>
-        <div v-for="(person, id) of list"
-             :key="person.id"
-             v-bind:class="{ highlighted: id % 2 === 0 }"
-             class="person-info-container">
-          <p>{{ person.id }}</p>
-          <p>{{ person.firstName }}</p>
-          <p>{{ person.lastName }}</p>
-          <p>{{ person.age }}</p>
-          <p>{{ person.email }}</p>
-          <button class="edit-btn" @click="edit(person.id)"></button>
-          <button class="remove-btn" @click="remove(person.id)"></button>
-        </div>
-      </div>
+      <table>
+          <tr>
+            <th>id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Age</th>
+            <th>E-mail</th>
+          </tr>
+          <tr v-for="person of list"
+              :key="person.id">
+            <td>{{ person.id }}</td>
+            <td>{{ person.firstName }}</td>
+            <td>{{ person.lastName }}</td>
+            <td>{{ person.age }}</td>
+            <td>{{ person.email }}</td>
+            <td><button class="edit-btn" @click="edit(person.id)"></button></td>
+            <td><button class="remove-btn" @click="remove(person.id)"></button></td>
+          </tr>
+        </table>
     </div>
 </template>
 
@@ -81,7 +80,7 @@ export default {
           email: this.email,
         };
         this.list.push(newPerson);
-        this.list = this.list.sort((a, b) => b.firstName.localeCompare(a.firstName));
+        this.sortList();
         this.clearForm();
       }
     },
@@ -108,6 +107,7 @@ export default {
       };
       this.list = this.list.map((el) => (el.id === this.editedPerson[0].id ? editedValues : el));
       this.isEditing = false;
+      this.sortList();
       this.clearForm();
     },
     clearForm() {
@@ -116,28 +116,31 @@ export default {
       this.age = '';
       this.email = '';
     },
+    sortList() {
+      this.list = this.list.sort((a, b) => b.firstName.localeCompare(a.firstName));
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
   .table-container {
-    display: flex;
-    margin-bottom: 64px;
+    width: 100%;
   }
 
-  .table-container-inner {
-    max-width: 1170px;
-    margin: 0 0 0 64px;
-  }
-  .person-info-container {
-    display: grid;
-    grid-template-columns: 1fr 4fr 4fr 1fr 4fr 1fr 1fr;
+  table {
+    width: 100%;
   }
 
-  .table-header {
-    display: grid;
-    grid-template-columns: 1fr 4fr 4fr 1fr 4fr 1fr 1fr;
+  td {
+    height: 48px;
+    text-align: left;
+    line-break: anywhere;
+    padding: 8px 20px 0;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
   }
 
   h2, p {
@@ -187,6 +190,8 @@ export default {
     background: 50% 50% transparent url("../assets/edit.svg") no-repeat;
     background-size: 20px;
     transition: all .3s;
+    width: 48px;
+    height: 48px;
 
     &:hover {
       background-size: 25px;
@@ -198,9 +203,66 @@ export default {
     background: 50% 50% transparent url("../assets/delete.svg") no-repeat;
     background-size: 20px;
     transition: all .3s;
+    width: 48px;
+    height: 48px;
 
     &:hover {
       background-size: 25px;
     }
+  }
+
+  @media
+  only screen and (max-width: 760px),
+  (min-device-width: 768px) and (max-device-width: 1024px)  {
+
+    form {
+      margin: 0;
+    }
+
+    /* Force table to not be like tables anymore */
+    table, thead, tbody, th, td, tr {
+      display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    th {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+
+    tr {
+      border: 1px solid #ccc;
+    }
+
+    td {
+      /* Behave  like a "row" */
+      border: none;
+      border-bottom: 1px solid #eee;
+      position: relative;
+      padding-left: 50%;
+    }
+
+    td:before {
+      /* Now like a table header */
+      position: absolute;
+      /* Top/left values mimic padding */
+      top: 6px;
+      left: 6px;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+    }
+
+    /*
+    Label the data
+    */
+    td:nth-of-type(1):before { content: "id"; }
+    td:nth-of-type(2):before { content: "First name"; }
+    td:nth-of-type(3):before { content: "Last name"; }
+    td:nth-of-type(4):before { content: "Age"; }
+    td:nth-of-type(5):before { content: "Email"; }
+    td:nth-of-type(6):before { content: "Edit?"; }
+    td:nth-of-type(7):before { content: "Remove?"; }
   }
 </style>

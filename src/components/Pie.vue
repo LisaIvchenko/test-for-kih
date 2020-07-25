@@ -1,7 +1,6 @@
 <template>
   <div class="chart-container">
     <pie-chart :chart-data="chartData"></pie-chart>
-    <h1>Тестовое задание для Кубань-Информ-Холдинг-Юг</h1>
   </div>
 </template>
 
@@ -62,10 +61,5 @@ export default {
     margin-left: 64px;
     display: flex;
     align-items: center;
-  }
-
-  h1 {
-    text-align: right;
-    margin-left: 64px;
   }
 </style>
