@@ -204,9 +204,10 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  box-sizing: border-box;
 
   @include responsive(1200px) {
-    margin: 0 16px;
+    padding: 0 16px;
   }
 }
 

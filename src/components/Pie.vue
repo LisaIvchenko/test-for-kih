@@ -61,9 +61,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .chart-container {
-    display: flex;
-    align-items: center;
-    margin: 32px;
-  }
+.chart-container {
+  display: flex;
+  align-items: center;
+  margin: 32px;
+}
 </style>
