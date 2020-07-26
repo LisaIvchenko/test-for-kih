@@ -213,6 +213,11 @@ export default {
 
 h1 {
   flex-basis: 100%;
+  margin: 64px 0 32px;
+
+  @include responsive(768px) {
+    margin: 32px 0 0;
+  }
 }
 
 button {
@@ -236,7 +241,7 @@ td {
 }
 
 tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: rgba(187, 215, 170, 0.59);
 }
 
 h2, p {
@@ -267,7 +272,7 @@ input {
   margin: 16px 0;
   padding: 0 16px;
   border-radius: 8px;
-  border: 1px solid #ABA7E5;
+  border: 1px solid rgb(113,138,61);
 }
 
 .submit-btn,
@@ -281,12 +286,12 @@ input {
 }
 
 .submit-btn {
-  background: #ABA7E5;
+  background: rgb(113,138,61);
   margin: 16px 0 8px;
 }
 
 .cancel-btn {
-  background: #9696c2;
+  background: rgb(177,222,117);
   margin-bottom: 32px;
 }
 

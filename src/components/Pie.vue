@@ -65,5 +65,6 @@ export default {
   display: flex;
   align-items: center;
   margin: 32px;
+  max-height: 500px;
 }
 </style>
