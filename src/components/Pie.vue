@@ -1,7 +1,7 @@
 <template>
   <div class="chart-container">
-    <p v-for="age of ages" :key="age" v-on="$listeners">{{ age }}</p>
-    <pie-chart :chart-data="chartData"></pie-chart>
+    <pie-chart :chart-data="chartData"
+               style="position: relative; width:80vw; max-width: 400px"></pie-chart>
   </div>
 </template>
 
@@ -25,6 +25,9 @@ export default {
     return {
       chartData: {
         labels: ['моложе 20', '21-30', '31-40', '41-50', 'старше 50'],
+        legend: {
+          display: false,
+        },
         datasets: [
           {
             backgroundColor: [
@@ -59,9 +62,8 @@ export default {
 
 <style scoped lang="scss">
   .chart-container {
-    /*width: 400px;*/
-    height: 400px;
     display: flex;
     align-items: center;
+    margin: 32px;
   }
 </style>

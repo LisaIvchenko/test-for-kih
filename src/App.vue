@@ -100,7 +100,7 @@ export default {
     async addPerson() {
       if (!this.isEditing) {
         const newPerson = {
-          // символическая генерация нового id, нашли существующий макс id и прибавили 1
+          // символическая генерация нового id, так как с апи ничего не приходит
           id: this.list.length !== 0 ? Math.max(...this.list.map((el) => el.id)) + 1 : 1,
           firstName: this.firstName,
           lastName: this.lastName,
@@ -188,6 +188,12 @@ export default {
 </script>
 
 <style lang="scss">
+@mixin responsive($screen-width) {
+  @media (max-width: $screen-width) {
+    @content
+  }
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -198,6 +204,10 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+
+  @include responsive(1200px) {
+    margin: 0 16px;
+  }
 }
 
 h1 {
@@ -243,6 +253,10 @@ form {
   flex-direction: column;
   padding-top: 50px;
   margin-bottom: 32px;
+
+  @include responsive(768px) {
+    margin: 0;
+  }
 }
 
 input {
@@ -305,39 +319,31 @@ input {
   }
 }
 
-@media
-only screen and (max-width: 760px),
-(min-device-width: 768px) and (max-device-width: 1024px)  {
-
-  form {
-    margin: 0;
-  }
-
-  /* Force table to not be like tables anymore */
-  table, thead, tbody, th, td, tr {
+/* Force table to not be like tables anymore */
+table, thead, tbody, th, td, tr {
+  @include responsive(768px) {
     display: block;
   }
+}
 
-  /* Hide table headers (but not display: none;, for accessibility) */
-  th {
+/* Hide table headers (but not display: none;, for accessibility) */
+th {
+  @include responsive(768px) {
     position: absolute;
     top: -9999px;
     left: -9999px;
   }
+}
 
-  tr {
-    border: 1px solid #ccc;
-  }
-
-  td {
-    /* Behave  like a "row" */
+td {
+  /* Behave  like a "row" */
+  @include responsive(768px) {
     border: none;
     border-bottom: 1px solid #eee;
     position: relative;
     padding-left: 50%;
   }
-
-  td:before {
+  &::before {
     /* Now like a table header */
     position: absolute;
     /* Top/left values mimic padding */
@@ -347,7 +353,9 @@ only screen and (max-width: 760px),
     padding-right: 10px;
     white-space: nowrap;
   }
+}
 
+@media only screen and (max-width: 760px)  {
   /*
   Label the data
   */
