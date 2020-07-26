@@ -1,5 +1,6 @@
 <template>
   <div class="chart-container">
+    <p v-for="age of ages" :key="age" v-on="$listeners">{{ age }}</p>
     <pie-chart :chart-data="chartData"></pie-chart>
   </div>
 </template>
@@ -12,7 +13,14 @@ export default {
   components: {
     PieChart,
   },
-  props: ['ages', 'loaded'],
+  props: {
+    ages: {
+      type: Array,
+    },
+    loaded: {
+      type: Boolean,
+    },
+  },
   data() {
     return {
       chartData: {

@@ -31,7 +31,10 @@
               type="reset"
               @click="cancel()">cancel</button>
     </form>
-    <Pie :chart-data="ages" v-bind:ages="ages" v-bind:loaded="loaded" v-if="loaded"/>
+    <Pie :chart-data="ages"
+         v-bind:ages="ages"
+         v-bind:loaded="loaded"
+         v-if="loaded"/>
     <table>
       <tr>
         <th>id</th>
@@ -71,13 +74,14 @@ export default {
       isEditing: false,
       editingId: null,
       editedPerson: null,
+      apiUrl: 'http://vuetask.kih.ru/api.php',
     };
   },
   components: {
     Pie,
   },
   mounted() {
-    fetch('http://vuetask.kih.ru/api.php')
+    fetch(this.apiUrl)
       .then((response) => response.json())
       .then((response) => {
         this.list = response.sort((a, b) => b.firstName.localeCompare(a.firstName));
@@ -93,7 +97,7 @@ export default {
       this.ages[3] = this.list.reduce((acc, el) => (acc + (el.age > 40 && el.age <= 50)), 0);
       this.ages[4] = this.list.reduce((acc, el) => (acc + (el.age > 50)), 0);
     },
-    addPerson() {
+    async addPerson() {
       if (!this.isEditing) {
         const newPerson = {
           // символическая генерация нового id, нашли существующий макс id и прибавили 1
@@ -104,6 +108,19 @@ export default {
           email: this.email,
         };
         this.list.push(newPerson);
+        try {
+          const response = await fetch(this.apiUrl, {
+            method: 'POST',
+            body: JSON.stringify(newPerson),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          const json = await response.json();
+          console.log('Sent:', JSON.stringify(json));
+        } catch (error) {
+          console.error('Error:', error);
+        }
         this.countAges();
         this.sortList();
         this.clearForm();
@@ -120,6 +137,18 @@ export default {
       };
       this.list = this.list.map((el) => (el.id === this.editedPerson[0].id ? editedValues : el));
       this.isEditing = false;
+      fetch(`${this.apiUrl}/edit-item/${this.editedPerson[0].id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          editedValues,
+        }),
+      }).then((response) => {
+        response.json().then((res) => {
+          console.log(res);
+        });
+      }).catch((err) => {
+        console.error(err);
+      });
       this.countAges();
       this.sortList();
       this.clearForm();
@@ -138,8 +167,12 @@ export default {
     },
     remove(id) {
       this.list = this.list.filter((el) => el.id !== id);
+      fetch(`${this.apiUrl}/delete-item/${id}`, {
+        method: 'DELETE',
+      })
+        .then((res) => res.text())
+        .then((res) => console.log(res));
       this.countAges();
-      this.renderChart();
     },
     edit(id) {
       this.isEditing = true;
@@ -162,6 +195,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+h1 {
+  flex-basis: 100%;
 }
 
 button {
@@ -174,8 +214,7 @@ body {
 
 table {
   width: 100%;
-  max-width: 1440px;
-  margin: 32px auto;
+  max-width: 1170px;
 }
 
 td {
@@ -203,7 +242,7 @@ form {
   display: flex;
   flex-direction: column;
   padding-top: 50px;
-  margin-left: 64px;
+  margin-bottom: 32px;
 }
 
 input {
