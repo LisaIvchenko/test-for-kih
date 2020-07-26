@@ -91,11 +91,14 @@ export default {
   },
   methods: {
     countAges() {
-      this.ages[0] = this.list.reduce((acc, el) => (acc + (el.age <= 20)), 0);
-      this.ages[1] = this.list.reduce((acc, el) => (acc + (el.age > 20 && el.age <= 30)), 0);
-      this.ages[2] = this.list.reduce((acc, el) => (acc + (el.age > 30 && el.age <= 40)), 0);
-      this.ages[3] = this.list.reduce((acc, el) => (acc + (el.age > 40 && el.age <= 50)), 0);
-      this.ages[4] = this.list.reduce((acc, el) => (acc + (el.age > 50)), 0);
+      this.ages = this.list.reduce((acc, person) => {
+        if (person.age <= 20) acc[0] += 1;
+        else if (person.age > 20 && person.age <= 30) acc[1] += 1;
+        else if (person.age > 30 && person.age <= 40) acc[2] += 1;
+        else if (person.age > 40 && person.age <= 50) acc[3] += 1;
+        else acc[4] += 1;
+        return acc;
+      }, [0, 0, 0, 0, 0]);
     },
     async addPerson() {
       if (!this.isEditing) {
