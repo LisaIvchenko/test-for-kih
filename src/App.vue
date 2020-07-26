@@ -205,6 +205,7 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
   box-sizing: border-box;
+  margin-bottom: 64px;
 
   @include responsive(1200px) {
     padding: 0 16px;
